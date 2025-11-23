@@ -23,7 +23,7 @@ function Login() {
             const token = response.data.token;
             localStorage.setItem('token', token);
             
-            // 3. Redirigir (Por ahora al home, luego haremos el Dashboard)
+            // 3. Redirigir
             alert("¡Login Exitoso! Token guardado.");
             navigate('/dashboard');
 

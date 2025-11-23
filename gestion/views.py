@@ -42,9 +42,6 @@ class VisitaViewSet(viewsets.ModelViewSet):
     serializer_class = VisitaSerializer
     permission_classes = [permissions.IsAuthenticated]
     
-    # Nota: Ya no necesitamos perform_create ni create aquí, 
-    # el Serializer se encarga de todo.
-
     @action(detail=False, methods=['get'])
     def mis_visitas_hoy(self, request):
         user = request.user

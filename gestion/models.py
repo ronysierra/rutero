@@ -11,7 +11,7 @@ class Perfil(models.Model):
         ('LIDER', 'Líder de Zona'),
         ('ASESOR', 'Asesor Comercial'),
     )
-    # Relación 1 a 1 con el usuario de Django
+    
     usuario = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil')
     rol = models.CharField(max_length=20, choices=ROLES, default='ASESOR')
     telefono = models.CharField(max_length=20, blank=True, null=True)

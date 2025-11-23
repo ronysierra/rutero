@@ -75,7 +75,7 @@ function Dashboard() {
                                             </p>
                                         </div>
                                         <div className="card-footer bg-white border-top-0 pb-3">
-                                            {/* --- AQUÍ ESTÁ EL CAMBIO --- */}
+                                            {/* --------------------------- */}
                                             <button 
                                                 className="btn btn-outline-success w-100"
                                                 onClick={() => navigate(`/ruta/${ruta.id}`)}

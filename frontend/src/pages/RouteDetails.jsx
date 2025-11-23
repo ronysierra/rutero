@@ -75,19 +75,16 @@ function RouteDetails() {
         formData.append('punto_visita', selectedPuntoId);
         
         // Necesitamos el ID del asesor (lo sacamos del localStorage o asumimos que el backend lo toma del token)
-        // En tu ViewSet de Django pusimos lógica para esto, pero enviémoslo por si acaso si lo tienes a mano
-        // Por ahora confiamos en que el backend asigna el usuario del token.
         
         formData.append('latitud_registro', lat);
         formData.append('longitud_registro', lng);
         formData.append('precision_gps', acc);
         formData.append('estado', 'REALIZADA');
         
-        // La foto (Django espera 'foto_upload' según nuestro Serializer)
+        // La foto (Django espera 'foto_upload' el Serializer)
         formData.append('foto_upload', foto);
 
         try {
-            // IMPORTANTE: El Content-Type se pone automático con FormData, no lo fuerces a JSON
             await client.post('/api/visitas/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -95,7 +92,7 @@ function RouteDetails() {
             });
             
             alert("✅ ¡Visita registrada con éxito!");
-            // Recargar datos para actualizar la vista (opcional: mostrar check verde)
+            // Recargar datos para actualizar la vista
             cargarDetalle();
 
         } catch (error) {
@@ -149,10 +146,6 @@ function RouteDetails() {
                         <div className="alert alert-warning">Esta ruta no tiene puntos asignados.</div>
                     ) : (
                         ruta.puntos.map((punto, index) => {
-                            // Lógica visual: ¿Ya se visitó este punto?
-                            // Tu API devuelve 'puntos', pero para saber si ya se hizo visita,
-                            // necesitaríamos que el serializer de 'PuntoVisita' incluya el estado de la visita.
-                            // Por ahora, el botón siempre estará activo para pruebas.
                             
                             return (
                                 <div key={punto.id} className="col-12 mb-3">

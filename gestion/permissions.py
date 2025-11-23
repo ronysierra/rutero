@@ -17,7 +17,6 @@ class IsLider(permissions.BasePermission):
         try:
             # request.user es el modelo 'Usuario'
             perfil = Perfil.objects.get(usuario=request.user)
-            # Comparamos el campo 'rol' como definiste en tus modelos
             return perfil.rol == 'LIDER'
         except Perfil.DoesNotExist:
             # Si no tiene perfil, no es un Líder

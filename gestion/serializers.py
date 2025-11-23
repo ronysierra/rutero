@@ -69,13 +69,13 @@ class VisitaSerializer(serializers.ModelSerializer):
         # 1. Sacar la foto para manejarla aparte
         foto = validated_data.pop('foto_upload', None)
         
-        # 2. ASIGNACIÓN MANUAL DEL ASESOR (Aquí está el arreglo)
+        # 2. ASIGNACIÓN MANUAL DEL ASESOR
         # Obtenemos el usuario directamente del contexto de la petición
         request = self.context.get('request')
         if request and hasattr(request.user, 'perfil'):
             validated_data['asesor'] = request.user.perfil
             
-        # 3. Crear la visita con los datos (ahora sí incluye el asesor)
+        # 3. Crear la visita con los datos
         visita = Visita.objects.create(**validated_data)
 
         # 4. Guardar la evidencia si hay foto
