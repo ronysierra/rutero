@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn nombre_de_tu_proyecto.wsgi
+web: python manage.py migrate && gunicorn config.wsgi
