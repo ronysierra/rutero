@@ -6,6 +6,7 @@ from drf_yasg import openapi
 from rest_framework.authtoken import views as token_views
 from django.http import HttpResponse
 from django.contrib.auth.models import User
+from django.core.management import call_command
 
 # ==============================================================================
 # CONFIGURACIÓN DE SWAGGER (Documentación Automática)
@@ -44,17 +45,21 @@ urlpatterns = [
 
 def crear_superuser(request):
     try:
+        # 1. PRIMERO: Forzamos la creación de las tablas (Migrate)
+        call_command('migrate', interactive=False)
+        
+        # 2. SEGUNDO: Ahora sí creamos el usuario
         if not User.objects.filter(username='admin').exists():
             User.objects.create_superuser('admin', 'admin@admin.com', 'admin1234')
-            return HttpResponse("<h1>¡LISTO! Superusuario creado.</h1><p>Usuario: admin</p><p>Clave: admin1234</p>")
+            return HttpResponse("<h1>¡ÉXITO TOTAL! 🚀</h1><p>Tablas creadas y Usuario Admin listo.</p>")
         else:
-            return HttpResponse("<h1>El usuario 'admin' ya existe.</h1>")
+            return HttpResponse("<h1>¡ÉXITO!</h1><p>Las tablas se crearon, pero el usuario 'admin' ya existía.</p>")
+            
     except Exception as e:
-        return HttpResponse(f"Error: {str(e)}")
+        return HttpResponse(f"Error crítico: {str(e)}")
     
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('crear_admin_urgente/', crear_superuser),
-    
+    path('crear_admin_urgente/', crear_superuser),    
     path('api/', include('gestion.urls')),
 ]
