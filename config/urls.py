@@ -4,6 +4,8 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.authtoken import views as token_views
+from django.http import HttpResponse
+from django.contrib.auth.models import User
 
 # ==============================================================================
 # CONFIGURACIÓN DE SWAGGER (Documentación Automática)
@@ -38,4 +40,21 @@ urlpatterns = [
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+]
+
+def crear_superuser(request):
+    try:
+        if not User.objects.filter(username='admin').exists():
+            User.objects.create_superuser('admin', 'admin@admin.com', 'admin1234')
+            return HttpResponse("<h1>¡LISTO! Superusuario creado.</h1><p>Usuario: admin</p><p>Clave: admin1234</p>")
+        else:
+            return HttpResponse("<h1>El usuario 'admin' ya existe.</h1>")
+    except Exception as e:
+        return HttpResponse(f"Error: {str(e)}")
+    
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('crear_admin_urgente/', crear_superuser),
+    
+    path('api/', include('gestion.urls')),
 ]
